@@ -11,9 +11,6 @@ provider:
   iam:
     role: arn:aws:iam::398158581759:role/BasicLambdaExecutionRole
 
-  environment:
-    ENV_STAGE: ${opt:stage, 'dev'}
-
 plugins:
   - serverless-webpack
 
