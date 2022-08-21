@@ -16,7 +16,6 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
-                include: path.resolve(__dirname, 'src'),
                 exclude: [
                     path.resolve(__dirname, 'node_modules'),
                     path.resolve(__dirname, '.serverless'),
