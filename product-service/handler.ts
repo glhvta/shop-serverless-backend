@@ -1,3 +1,3 @@
-const { getProductsList } = require('./src/functions');
+import { getProductsList } from './src/functions';
 
 export { getProductsList };
