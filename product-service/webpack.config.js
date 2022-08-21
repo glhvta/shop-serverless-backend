@@ -1,4 +1,4 @@
-const { resolve } = require('path');
+const path = require('path');
 const slsw = require('serverless-webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
@@ -16,7 +16,7 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
-                include: resolve(__dirname, 'src'),
+                include: path.resolve(__dirname, 'src'),
                 exclude: [
                     path.resolve(__dirname, 'node_modules'),
                     path.resolve(__dirname, '.serverless'),
