@@ -1,3 +1,5 @@
+import { StatusCode } from '@libs/constants/statusCode';
+
 interface ResponseInterface {
     statusCode: number
     headers: Record<string, string>,
@@ -10,7 +12,7 @@ const defaultHeaders = {
     'Access-Control-Allow-Origin': '*',
 };
 
-const errorResponse = ( errorMessage: string, statusCode = 500 ): ResponseInterface => {
+const errorResponse = ( errorMessage: string, statusCode = StatusCode.ServerError ): ResponseInterface => {
     return {
         statusCode,
         headers: {
@@ -20,7 +22,7 @@ const errorResponse = ( errorMessage: string, statusCode = 500 ): ResponseInterf
     };
 };
 
-const successResponse = ( body: string, statusCode = 200): ResponseInterface => {
+const successResponse = ( body: string, statusCode = StatusCode.SuccessResponse): ResponseInterface => {
     return {
         statusCode,
         headers: {
