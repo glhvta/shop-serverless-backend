@@ -1,4 +1,4 @@
-import { APIGatewayEvent } from 'aws-lambda';
+import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 import { ProductService } from '@libs/services/productsService';
 import { 
@@ -8,7 +8,7 @@ import {
   successResponse,
 } from '@libs/services/responseBuilder';
 
-const getProductById = (productService: ProductService) => async (event: APIGatewayEvent) => {
+const getProductById = (productService: ProductService) => async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
   try {
     console.log(`Incoming event: ${ JSON.stringify(event) }`);
 
@@ -26,7 +26,7 @@ const getProductById = (productService: ProductService) => async (event: APIGate
       return notFoundErrorResponse(`Product with id ${productId} was not found`);
     }
 
-    return successResponse(JSON.stringify(product));
+    return successResponse(product);
   } catch (err) {
     return serverErrorResponse('Server error in fetching product by id');
   }

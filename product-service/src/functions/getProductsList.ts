@@ -11,7 +11,7 @@ const getProductsList = (productService: ProductService) => async(event: APIGate
 
     console.log(`Product list: ${ JSON.stringify(products) }`);
 
-    return successResponse(JSON.stringify(products));
+    return successResponse(products);
   } catch (err) {
     console.log('Error occurred while fetching products');
 

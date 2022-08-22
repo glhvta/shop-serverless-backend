@@ -6,7 +6,7 @@
   "scripts": {
     "deploy:dev": "sls deploy --stage dev",
     "deploy:prod": "sls deploy --stage prod",
-    "test": "jest"
+    "test": "jest --silent"
   },
   "engines": {
     "node": ">=14.15.0"
