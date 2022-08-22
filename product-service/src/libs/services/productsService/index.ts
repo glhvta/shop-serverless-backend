@@ -1,2 +1,1 @@
-export { default as JewelleryProductService } from './jewelleryProductService';
-export { Product, ProductService } from './types';
+export { Product, ProductService } from './productService';

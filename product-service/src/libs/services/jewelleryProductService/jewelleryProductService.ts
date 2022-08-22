@@ -1,4 +1,4 @@
-import { Product, ProductService } from './types';
+import { ProductService, Product } from '@libs/services/productsService';
 import productsData from './products-mock';
 
 class JewelleryProductService implements ProductService {
