@@ -15,11 +15,11 @@ module.exports = {
   ignorePatterns: ['**/*.js'],
   rules: {
       'no-duplicate-imports': 'error',
-      'comma-dangle': ['error', 'always-multiline'],
+      'comma-dangle': ['warn', 'always-multiline'],
       'prefer-const': 'warn',
-      'semi': ["error", "always"],
-      'no-else-return': 'warn',
+      'semi': ["warn", "always"],
       'no-multi-spaces': 'warn',
+      'no-else-return': 'warn',
       'object-curly-spacing': ['error', 'always'],
       'quotes': ['warn', 'single'],
       'no-use-before-define': [
