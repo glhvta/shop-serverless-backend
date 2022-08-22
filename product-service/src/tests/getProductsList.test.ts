@@ -5,34 +5,34 @@ import { serverErrorResponse, successResponse } from '@libs/services/responseBui
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 describe('getProductsList spec', () => {
-    let productService: ProductService;
-    let mockEvent: APIGatewayProxyEvent;
-    
-    let getProductList: (event: APIGatewayProxyEvent) => Promise<APIGatewayProxyResult>;
+  let productService: ProductService;
+  let mockEvent: APIGatewayProxyEvent;
 
-    beforeEach(() => {
-        productService = new JewelleryProductService();
+  let getProductList: (event: APIGatewayProxyEvent) => Promise<APIGatewayProxyResult>;
 
-        getProductList = createProductListHandler(productService);
-    });
+  beforeEach(() => {
+    productService = new JewelleryProductService();
 
-    afterEach(() => jest.clearAllMocks());
+    getProductList = createProductListHandler(productService);
+  });
+
+  afterEach(() => jest.clearAllMocks());
 
 
-    it('should return all available products', async () => {
-        const actual = await getProductList(mockEvent);
-        const expectedProductsList = await productService.getProductsList();
+  it('should return all available products', async () => {
+    const actual = await getProductList(mockEvent);
+    const expectedProductsList = await productService.getProductsList();
 
-        expect(actual).toEqual(successResponse(expectedProductsList));
-    });
+    expect(actual).toEqual(successResponse(expectedProductsList));
+  });
 
-    it('should return server error when product service request failed', async () => {
-        jest
-          .spyOn(productService, 'getProductsList')
-          .mockImplementation(async () => Promise.reject('Error'));
+  it('should return server error when product service request failed', async () => {
+    jest
+      .spyOn(productService, 'getProductsList')
+      .mockImplementation(async () => Promise.reject('Error'));
 
-        const actual = await getProductList(mockEvent);
+    const actual = await getProductList(mockEvent);
 
-        expect(actual).toEqual(serverErrorResponse('Server error in fetching products'));
-    });
+    expect(actual).toEqual(serverErrorResponse('Server error in fetching products'));
+  });
 });

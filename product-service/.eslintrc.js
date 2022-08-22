@@ -20,6 +20,7 @@ module.exports = {
       'semi': ["warn", "always"],
       'no-multi-spaces': 'warn',
       'no-else-return': 'warn',
+      "indent": ["warn", 2],
       'object-curly-spacing': ['error', 'always'],
       'quotes': ['warn', 'single'],
       'no-use-before-define': [
