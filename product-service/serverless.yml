@@ -27,3 +27,10 @@ functions:
           path: /products
           method: GET
           cors: true
+  getProductById:
+    handler: handler.getProductById
+    events:
+      - http:
+          path: /products/{productId}
+          method: GET
+          cors: true
