@@ -1,8 +1,12 @@
 import { APIGatewayEvent } from 'aws-lambda';
 
 import { ProductService } from '@libs/services/productsService';
-import { errorResponse, successResponse } from '@libs/services/responseBuilder';
-import { StatusCode } from '@libs/constants/statusCode';
+import { 
+  badRequestErrorResponse, 
+  notFoundErrorResponse, 
+  serverErrorResponse, 
+  successResponse,
+} from '@libs/services/responseBuilder';
 
 const getProductById = (productService: ProductService) => async (event: APIGatewayEvent) => {
   try {
@@ -11,7 +15,7 @@ const getProductById = (productService: ProductService) => async (event: APIGate
     const { productId } = event.pathParameters;
 
     if (!productId) {
-      return errorResponse('Product id is not provided', StatusCode.BadRequest);
+      return badRequestErrorResponse('Product id is not provided');
     }
 
     const product = await productService.getProductById(productId);
@@ -19,12 +23,12 @@ const getProductById = (productService: ProductService) => async (event: APIGate
     console.log(`Received product with id: ${productId}: ${ JSON.stringify(product) }`);
     
     if (!product) {
-      return errorResponse(`Product with id ${productId} was not found`, StatusCode.NotFound);
+      return notFoundErrorResponse(`Product with id ${productId} was not found`);
     }
 
     return successResponse(JSON.stringify(product));
   } catch (err) {
-    return errorResponse('Server error in fetching product by id');
+    return serverErrorResponse('Server error in fetching product by id');
   }
 };
 

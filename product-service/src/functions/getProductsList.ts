@@ -1,7 +1,7 @@
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 import { ProductService } from '@libs/services/productsService';
-import { errorResponse, successResponse } from '@libs/services/responseBuilder';
+import { serverErrorResponse, successResponse } from '@libs/services/responseBuilder';
 
 const getProductsList = (productService: ProductService) => async(event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
   try {
@@ -15,7 +15,7 @@ const getProductsList = (productService: ProductService) => async(event: APIGate
   } catch (err) {
     console.log('Error occurred while fetching products');
 
-    return errorResponse('Server error in fetching products');
+    return serverErrorResponse('Server error in fetching products');
   }
 };
 

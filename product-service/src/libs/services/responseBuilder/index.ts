@@ -1,1 +1,1 @@
-export { successResponse, errorResponse } from './responseBuilder';
+export * from './responseBuilder';
