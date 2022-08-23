@@ -1,7 +1,7 @@
 {
   "name": "product-service",
   "version": "1.0.0",
-  "description": "Product Service created API Gateway and Lambdas",
+  "description": "Product Service created with API Gateway and Lambdas",
   "main": "serverless.ts",
   "scripts": {
     "deploy:dev": "sls deploy --stage dev",

@@ -1,6 +1,6 @@
 # Product service
 
-Product Service created API Gateway and Lambdas
+Product Service created with API Gateway and Lambdas
 ## Front-End Application
 
 https://d3jv20c7ho3whs.cloudfront.net/
