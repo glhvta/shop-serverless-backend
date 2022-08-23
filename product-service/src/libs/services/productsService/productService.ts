@@ -1,10 +1,4 @@
-export interface Product {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: string, 
-}
+import { Product } from 'src/types/api-types';
 
 export interface ProductService {
   getProductById: (id: string) => Promise<Product>,

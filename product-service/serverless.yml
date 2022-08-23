@@ -12,12 +12,15 @@ provider:
     role: arn:aws:iam::398158581759:role/BasicLambdaExecutionRole
 
 plugins:
+  - serverless-auto-swagger
   - serverless-webpack
 
 custom:
   webpack:
     webpackConfig: 'webpack.config.js'
     includeModules: true
+  autoswagger:
+    apiType: httpApi
 
 functions:
   getProductsList:
