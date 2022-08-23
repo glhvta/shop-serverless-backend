@@ -12,12 +12,12 @@ export const defaultHeaders = {
   'Access-Control-Allow-Origin': '*',
 };
 
-const createResponse = (statusCode: StatusCode, dataProcessor?: (data: unknown) => unknown) => (data: unknown): ResponseInterface => ({
+const createResponse = (statusCode: StatusCode, bodyProcessor?: (data: unknown) => unknown) => (data: unknown): ResponseInterface => ({
   statusCode,
   headers: {
     ...defaultHeaders,
   },
-  body: JSON.stringify(dataProcessor ? dataProcessor(data) : data),
+  body: JSON.stringify(bodyProcessor ? bodyProcessor(data) : data),
 });
 
 const createErrorResponse = (statusCode: StatusCode) => createResponse(
