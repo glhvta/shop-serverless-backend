@@ -21,6 +21,7 @@ module.exports = {
       'no-multi-spaces': 'warn',
       'no-else-return': 'warn',
       "indent": ["warn", 2],
+      "eol-last": ["warn", "always"],
       'object-curly-spacing': ['error', 'always'],
       'quotes': ['warn', 'single'],
       'no-use-before-define': [
