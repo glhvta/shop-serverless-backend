@@ -1,0 +1,39 @@
+service: product-service-tatsiana-helakhava
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  profile: js-cc4
+  region: eu-central-1
+  iam:
+    role: arn:aws:iam::398158581759:role/BasicLambdaExecutionRole
+
+plugins:
+  - serverless-auto-swagger
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+  autoswagger:
+    apiType: httpApi
+
+functions:
+  getProductsList:
+    handler: handler.getProductsList
+    events:
+      - http:
+          path: /products
+          method: GET
+          cors: true
+  getProductById:
+    handler: handler.getProductById
+    events:
+      - http:
+          path: /products/{productId}
+          method: GET
+          cors: true
