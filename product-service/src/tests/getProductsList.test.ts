@@ -1,4 +1,5 @@
 import createProductListHandler from '@functions/getProductsList';
+import MockDatabaseClient from '@libs/services/database/mockDatabaseClient';
 import { JewelleryProductService } from '@libs/services/jewelleryProductService';
 import { ProductService } from '@libs/services/productsService';
 import { serverErrorResponse, successResponse } from '@libs/services/responseBuilder';
@@ -11,7 +12,7 @@ describe('getProductsList spec', () => {
   let getProductList: (event: APIGatewayProxyEvent) => Promise<APIGatewayProxyResult>;
 
   beforeEach(() => {
-    productService = new JewelleryProductService();
+    productService = new JewelleryProductService(new MockDatabaseClient());
 
     getProductList = createProductListHandler(productService);
   });

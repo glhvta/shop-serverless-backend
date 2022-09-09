@@ -4,6 +4,7 @@ import createProductByIdHandler from '@functions/getProductById';
 import { JewelleryProductService } from '@libs/services/jewelleryProductService';
 import { ProductService } from '@libs/services/productsService';
 import { badRequestErrorResponse, notFoundErrorResponse, serverErrorResponse, successResponse } from '@libs/services/responseBuilder';
+import MockDatabaseClient from '@libs/services/database/mockDatabaseClient';
 
 describe('getProductsList spec', () => {
   let productService: ProductService;
@@ -17,10 +18,11 @@ describe('getProductsList spec', () => {
     price: 23,
     title: 'Product2',
     image: 'url',
+    count: 1,
   };
 
   beforeEach(() => {
-    productService = new JewelleryProductService();
+    productService = new JewelleryProductService(new MockDatabaseClient());
 
     getProductById = createProductByIdHandler(productService);
 
