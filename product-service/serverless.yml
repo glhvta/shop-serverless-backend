@@ -13,9 +13,15 @@ provider:
       permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
       statements: 
         - Effect: 'Allow'
-          Action: 's3:*'
+          Action: 
+            - s3:*
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
           Resource: '*'
-    
 
 plugins:
   - serverless-auto-swagger
