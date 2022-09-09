@@ -3,7 +3,7 @@ import Ajv from 'ajv';
 
 import { ProductService } from '@libs/services/productsService';
 import { badRequestErrorResponse, serverErrorResponse, successResponse } from '@libs/services/responseBuilder';
-import { ProductRequestSchema, ProductRequest } from 'src/dto/product';
+import { ProductRequestSchema, ProductRequest } from '../dto/product';
 
 const validateProduct = (new Ajv()).compile(ProductRequestSchema);
 
@@ -27,7 +27,7 @@ const createProduct = (productService: ProductService) => async(event: APIGatewa
 
     console.log(`Product was successfully created: ${ JSON.stringify(product) }`);
 
-    return successResponse(true);
+    return successResponse(product);
   } catch (err) {
     console.log('Error occurred while creating a product ', err);
 
