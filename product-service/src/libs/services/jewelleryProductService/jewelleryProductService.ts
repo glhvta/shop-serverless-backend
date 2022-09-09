@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { ProductService } from '@libs/services/productsService';
 import { Product } from 'src/types/api-types';
 import DataBaseClient from '../database/databaseClient';
-import productsData from './products-mock';
 import { ProductRequest } from 'src/dto/product';
 
 class JewelleryProductService implements ProductService {
@@ -16,13 +15,11 @@ class JewelleryProductService implements ProductService {
   }
 
   async getProductById(id: string): Promise<Product> {
-    const product = productsData.find((product) => product.id === id);
-
-    return Promise.resolve(product);
+    return await this.databaseClient.getById(this.DATABASE_TABLE, id);
   }
 
   async getProductsList(): Promise<Product[]> {
-    return Promise.resolve(productsData);
+    return await this.databaseClient.getAll(this.DATABASE_TABLE);
   }
 
   async createProduct (productRequest: ProductRequest): Promise<Product> {
