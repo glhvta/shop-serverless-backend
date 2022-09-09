@@ -1,0 +1,29 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Serverless debug",
+      "request": "launch",
+      "args": [
+        "offline",
+        "--stage",
+        "staging"
+      ],
+      "cwd": "${workspaceFolder}/product-service",
+      "program": "${workspaceFolder}/product-service/node_modules/serverless/bin/serverless",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "env": {
+        "AWS_PROFILE": "anywhere-mfa"
+      },
+      "runtimeArgs": [
+        "--inspect"
+      ],
+      "type": "node"
+    },
+  ]
+}
