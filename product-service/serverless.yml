@@ -54,7 +54,7 @@ functions:
   createProduct:
     handler: handler.createProduct
     events:
-      - httpApi:
+      - http:
           path: /products
           method: POST
 
