@@ -6,7 +6,7 @@ import { ProductService } from '@libs/services/productsService';
 import { badRequestErrorResponse, serverErrorResponse, successResponse } from '@libs/services/responseBuilder';
 import MockDatabaseClient from '@libs/services/database/mockDatabaseClient';
 
-describe('getProductsList spec', () => {
+describe('createProduct spec', () => {
   let productService: ProductService;
   let mockEvent: APIGatewayProxyEvent;
     
