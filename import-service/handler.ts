@@ -9,5 +9,6 @@ const s3BucketRepository = new S3BucketRepository(s3Client);
 const importService = new FileImportService(s3BucketRepository);
 
 const importProductsFile = handlers.importProductsFile(importService);
+const importFileParser = handlers.importFileParser(importService);
 
-export { importProductsFile };
+export { importProductsFile, importFileParser };
