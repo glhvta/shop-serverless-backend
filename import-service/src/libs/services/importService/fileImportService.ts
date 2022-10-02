@@ -9,6 +9,10 @@ class FileImportService extends ImportService{
   public getSignedUrl(fileName: string): Promise<string> {
     return this.fileRepository.getFileSignedUrl(fileName);
   }
+
+  public parseFile<T>(fileName: string): Promise<T[]> {
+    return this.fileRepository.getFile(fileName);
+  }
 }
 
 export default FileImportService;
