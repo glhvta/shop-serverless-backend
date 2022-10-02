@@ -6,4 +6,8 @@ export default class MockImportService extends ImportService {
   public getSignedUrl(): Promise<string> {
     return Promise.resolve(MockImportService.signedUrl);
   }
+
+  public parseFile<T>(): Promise<T[]> {
+    return Promise.resolve([] as T[]);
+  }
 }
