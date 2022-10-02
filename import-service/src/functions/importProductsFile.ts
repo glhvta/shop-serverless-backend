@@ -1,5 +1,5 @@
 import { ImportService } from '@libs/services/importService';
-import { badRequestErrorResponse, successResponse } from '@libs/services/responseBuilder';
+import { badRequestErrorResponse, serverErrorResponse, successResponse } from '@libs/services/responseBuilder';
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 const importProductsFile = (importService: ImportService) => async(event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
@@ -17,6 +17,8 @@ const importProductsFile = (importService: ImportService) => async(event: APIGat
     return successResponse({ url });
   } catch (err) {
     console.log('Error occurred while creating singed url');
+
+    return serverErrorResponse('Server error occurred while creating singed url');
   }
 };
 
