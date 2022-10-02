@@ -1,16 +1,34 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { ProductService } from '@libs/services/productsService';
 import { Product } from 'src/types/api-types';
-import productsData from './products-mock';
+import DataBaseClient from '../database/databaseClient';
+import { ProductRequest } from 'src/dto/product';
 
 class JewelleryProductService implements ProductService {
-  async getProductById(id: string): Promise<Product> {
-    const product = productsData.find((product) => product.id === id);
+  private readonly DATABASE_TABLE = 'products-table-tatsiana-helakhava';
 
-    return Promise.resolve(product);
+  private databaseClient: DataBaseClient;
+
+  constructor(databaseClient: DataBaseClient) {
+    this.databaseClient = databaseClient;
+  }
+
+  async getProductById(id: string): Promise<Product> {
+    return await this.databaseClient.getById(this.DATABASE_TABLE, id);
   }
 
   async getProductsList(): Promise<Product[]> {
-    return Promise.resolve(productsData);
+    return await this.databaseClient.getAll(this.DATABASE_TABLE);
+  }
+
+  async createProduct (productRequest: ProductRequest): Promise<Product> {
+    const product: Product = {
+      id: uuidv4(),
+      ...productRequest,
+    };
+
+    return await this.databaseClient.insert(this.DATABASE_TABLE, product);
   }
 }
 

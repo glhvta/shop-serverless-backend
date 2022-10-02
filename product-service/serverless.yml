@@ -9,11 +9,24 @@ provider:
   profile: js-cc4
   region: eu-central-1
   iam:
-    role: arn:aws:iam::398158581759:role/BasicLambdaExecutionRole
+    role: 
+      permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
+      statements: 
+        - Effect: 'Allow'
+          Action: 
+            - s3:*
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: '*'
 
 plugins:
   - serverless-auto-swagger
   - serverless-webpack
+  - serverless-offline
 
 custom:
   webpack:
@@ -21,6 +34,7 @@ custom:
     includeModules: true
   autoswagger:
     apiType: httpApi
+  tableName: products-table-tatsiana-helakhava
 
 functions:
   getProductsList:
@@ -37,3 +51,13 @@ functions:
           path: /products/{productId}
           method: GET
           cors: true
+  createProduct:
+    handler: handler.createProduct
+    events:
+      - http:
+          path: /products
+          method: POST
+
+resources:
+  # DynamoDB
+  - ${file(resources/dynamodb-table.yml)}
