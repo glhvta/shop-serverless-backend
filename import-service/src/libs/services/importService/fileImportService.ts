@@ -13,6 +13,8 @@ class FileImportService extends ImportService{
   public parseFile<T>(fileName: string): Promise<T[]> {
     return this.fileRepository.getFile(fileName);
   }
+
+  // todo: move file
 }
 
 export default FileImportService;
