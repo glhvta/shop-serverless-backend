@@ -10,6 +10,7 @@ provider:
   region: eu-central-1
   iam:
     role:
+      permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
       statements:
         - Effect: Allow
           Action: 's3:ListBucket'
