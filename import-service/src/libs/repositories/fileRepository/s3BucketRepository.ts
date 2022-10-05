@@ -48,8 +48,6 @@ class S3BucketRepository extends FileRepository{
   }
 
   public async copyFile(fileName: string): Promise<void> {
-    console.log('Starting copying file');
-
     const params = {
       Bucket: this.bucketName,
       CopySource: `${this.bucketName}/${fileName}`,
@@ -59,13 +57,9 @@ class S3BucketRepository extends FileRepository{
     const copyCommand = new CopyObjectCommand(params);
 
     await this.s3Client.send(copyCommand);
-
-    console.log('FILE COPIED : ', params.CopySource, params.Key);
   }
 
   public async deleteFile(fileName: string): Promise<void> {
-    console.log('Starting deleting file.');
-
     const params = {
       Bucket: this.bucketName,
       Key: fileName,
@@ -74,8 +68,6 @@ class S3BucketRepository extends FileRepository{
     const command = new DeleteObjectCommand(params);
 
     await this.s3Client.send(command);
-
-    console.log('FILE deleted : ', params.Bucket, params.Key);
   }
 
   public async moveFile(fileName: string): Promise<void> {
