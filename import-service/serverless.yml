@@ -53,3 +53,9 @@ functions:
             - prefix: uploaded/
             - suffix: .csv
           existing: true
+
+resources:
+  extensions:
+    IamRoleCustomResourcesLambdaExecution:
+      Properties:
+        PermissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
