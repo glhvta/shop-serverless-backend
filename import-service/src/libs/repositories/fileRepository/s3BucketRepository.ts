@@ -8,15 +8,14 @@ import FileRepository from './fileRepository';
 class S3BucketRepository extends FileRepository{
   private static readonly UPLOADED_FOLDER = 'uploaded';
   private static readonly PARSED_FOLDER = 'parsed';
-  private static readonly BUCKET_NAME = 'import-service-bucket-tatsiana-helakhava';
 
-  constructor(private readonly s3Client: S3) {
+  constructor(private readonly s3Client: S3, private readonly bucketName: string) {
     super();
   }
 
   public getFileSignedUrl(fileName: string): Promise<string> {
     const params = new PutObjectCommand({
-      Bucket: S3BucketRepository.BUCKET_NAME,
+      Bucket: this.bucketName,
       Key: `${S3BucketRepository.UPLOADED_FOLDER}/${fileName}`,
     });
   
@@ -25,7 +24,7 @@ class S3BucketRepository extends FileRepository{
 
   public async getFile<T>(fileName: string): Promise<T[]> {
     const params = new GetObjectCommand({
-      Bucket: S3BucketRepository.BUCKET_NAME,
+      Bucket: this.bucketName,
       Key: fileName,
     });
 
@@ -52,8 +51,8 @@ class S3BucketRepository extends FileRepository{
     console.log('Starting copying file');
 
     const params = {
-      Bucket: S3BucketRepository.BUCKET_NAME,
-      CopySource: `${S3BucketRepository.BUCKET_NAME}/${fileName}`,
+      Bucket: this.bucketName,
+      CopySource: `${this.bucketName}/${fileName}`,
       Key: fileName.replace(S3BucketRepository.UPLOADED_FOLDER, S3BucketRepository.PARSED_FOLDER),
     };
 
@@ -68,7 +67,7 @@ class S3BucketRepository extends FileRepository{
     console.log('Starting deleting file.');
 
     const params = {
-      Bucket: S3BucketRepository.BUCKET_NAME,
+      Bucket: this.bucketName,
       Key: fileName,
     };
 

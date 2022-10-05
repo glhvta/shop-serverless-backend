@@ -8,6 +8,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   profile: js-cc4
   region: eu-central-1
+  environment:
+    BUCKET_NAME: ${self:custom.bucketName}
+    SERVICE_REGION: ${self:provider.region}
   iam:
     role:
       permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'

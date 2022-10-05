@@ -3,10 +3,11 @@ import { S3BucketRepository } from '@libs/repositories/fileRepository';
 import FileImportService from '@libs/services/importService/fileImportService';
 import * as handlers from './src/functions';
 
-// TODO: add from env parameters
-const s3Client = new S3({ region: 'eu-central-1' });
+const { SERVICE_REGION, BUCKET_NAME } = process.env;
 
-const s3BucketRepository = new S3BucketRepository(s3Client);
+const s3Client = new S3({ region: SERVICE_REGION });
+
+const s3BucketRepository = new S3BucketRepository(s3Client, BUCKET_NAME);
 const importService = new FileImportService(s3BucketRepository);
 
 const importProductsFile = handlers.importProductsFile(importService);
