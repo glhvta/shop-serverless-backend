@@ -12,11 +12,15 @@ const importProductsFile = (importService: ImportService) => async(event: APIGat
       return badRequestErrorResponse('File name was not provided');
     }
 
+    console.log(`Get sign url for filename ${name}`);
+
     const url = await importService.getSignedUrl(name);
+
+    console.log(`Sign url created: ${url}`);
 
     return successResponse({ url });
   } catch (err) {
-    console.log('Error occurred while creating singed url');
+    console.log('Error occurred while creating singed url ', err);
 
     return serverErrorResponse('Server error occurred while creating singed url');
   }

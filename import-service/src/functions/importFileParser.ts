@@ -16,10 +16,16 @@ const importFileParser = (importService: ImportService) => async(event: S3Event)
         const file = await importService.parseFile<Product>(fileName);
 
         console.log(`File ${fileName} was parsed successfully: `, JSON.stringify(file));
+
+        console.log(`Starting moving file ${fileName}`);
+
+        await importService.moveFile(fileName);
+
+        console.log(`File ${fileName} was successfully moved`);
       }),
     );
   } catch (err) {
-    console.log('Error while parsing file');
+    console.log('Error while parsing file ', err);
 
     return serverErrorResponse('Server error occurred while parsing file');
   }

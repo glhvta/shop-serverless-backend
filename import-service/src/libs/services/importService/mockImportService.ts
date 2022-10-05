@@ -10,4 +10,8 @@ export default class MockImportService extends ImportService {
   public parseFile<T>(): Promise<T[]> {
     return Promise.resolve([] as T[]);
   }
+
+  public moveFile(): Promise<void> {
+    return Promise.resolve();
+  }
 }
