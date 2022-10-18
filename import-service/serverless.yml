@@ -1,0 +1,64 @@
+service: import-service-tatsiana-helakhava
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  profile: js-cc4
+  region: eu-central-1
+  environment:
+    BUCKET_NAME: ${self:custom.bucketName}
+    SERVICE_REGION: ${self:provider.region}
+  iam:
+    role:
+      permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
+      statements:
+        - Effect: Allow
+          Action: 's3:ListBucket'
+          Resource:
+            - 'arn:aws:s3:::${self:custom.bucketName}'
+        - Effect: Allow
+          Action:
+            - 's3:*'
+          Resource:
+            - 'arn:aws:s3:::${self:custom.bucketName}/*'
+
+plugins:
+  - serverless-auto-swagger
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  bucketName: 'import-service-bucket-tatsiana-helakhava'
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+  autoswagger:
+    apiType: httpApi
+
+functions:
+  importProductsFile:
+    handler: handler.importProductsFile
+    events:
+      - http:
+          path: /import
+          method: GET
+          cors: true
+  importFileParser:
+    handler: handler.importFileParser
+    events:
+      - s3:
+          bucket: ${self:custom.bucketName}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+            - suffix: .csv
+          existing: true
+
+resources:
+  extensions:
+    IamRoleCustomResourcesLambdaExecution:
+      Properties:
+        PermissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
