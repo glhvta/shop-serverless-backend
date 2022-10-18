@@ -22,6 +22,13 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: '*'
+        - Effect: Allow
+          Action:
+            - sqs:*
+          Resource:
+            - Fn::GetAtt:
+                - CatalogItemsQueue
+                - Arn
 
 plugins:
   - serverless-auto-swagger
@@ -35,6 +42,7 @@ custom:
   autoswagger:
     apiType: httpApi
   tableName: products-table-tatsiana-helakhava
+  catalogItemsQueueName: catalog-items-queue-tatsiana-helakhava
 
 functions:
   getProductsList:
@@ -57,7 +65,15 @@ functions:
       - http:
           path: /products
           method: POST
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - CatalogItemsQueue
+              - Arn
 
 resources:
-  # DynamoDB
-  - ${file(resources/dynamodb-table.yml)}
+  - ${file(resources/product-serves-resources.yml)}

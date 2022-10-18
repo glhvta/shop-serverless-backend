@@ -9,5 +9,6 @@ const productService = new JewelleryProductService(dynamoDbClient);
 const getProductsList = handlers.getProductsList(productService);
 const getProductById = handlers.getProductById(productService);
 const createProduct = handlers.createProduct(productService);
+const catalogBatchProcess = handlers.catalogBatchProcess(productService);
 
-export { getProductsList, getProductById, createProduct };
+export { getProductsList, getProductById, createProduct, catalogBatchProcess };
