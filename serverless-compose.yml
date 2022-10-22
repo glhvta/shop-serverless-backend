@@ -6,3 +6,4 @@ services:
     path: ./import-service
     params:
       productsSQSUrl: ${product-service.productsSQSUrl}
+      productsSQSArn: ${product-service.productsSQSArn}

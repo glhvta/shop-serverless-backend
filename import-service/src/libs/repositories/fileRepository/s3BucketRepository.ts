@@ -5,6 +5,8 @@ import { Readable } from 'stream';
 
 import FileRepository from './fileRepository';
 
+const mapNumbers = ({ value }: { value: string }): number | string => isNaN(Number(value)) ? value : Number(value);
+
 class S3BucketRepository extends FileRepository{
   private static readonly UPLOADED_FOLDER = 'uploaded';
   private static readonly PARSED_FOLDER = 'parsed';
@@ -40,7 +42,7 @@ class S3BucketRepository extends FileRepository{
 
     return new Promise<T[]>((resolve, reject) => {
       readableStream
-        .pipe(csvParser())
+        .pipe(csvParser({ mapValues: mapNumbers }))
         .on('error', reject)
         .on('data', (item) => fileData.push(item))
         .on('end', () => resolve(fileData));

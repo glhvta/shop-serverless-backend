@@ -14,4 +14,8 @@ export default class MockImportService extends ImportService {
   public moveFile(): Promise<void> {
     return Promise.resolve();
   }
+
+  public sendImportedProductsToQueue(): Promise<void> {
+    return Promise.resolve();
+  }
 }

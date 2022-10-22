@@ -109,3 +109,5 @@ resources:
   Outputs:
     productsSQSUrl:
       Value: !Ref CatalogItemsQueue
+    productsSQSArn:
+      Value: !GetAtt CatalogItemsQueue.Arn
