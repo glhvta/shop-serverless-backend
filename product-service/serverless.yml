@@ -8,6 +8,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   profile: js-cc4
   region: eu-central-1
+  environment:
+    SERVICE_REGION: ${self:provider.region}
+    SNS_ARN: !Ref CreateProductTopic
   iam:
     role: 
       permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
@@ -29,6 +32,10 @@ provider:
             - Fn::GetAtt:
                 - CatalogItemsQueue
                 - Arn
+        - Effect: Allow
+          Action:
+            - sns:*
+          Resource: !Ref CreateProductTopic
 
 plugins:
   - serverless-auto-swagger
@@ -43,6 +50,7 @@ custom:
     apiType: httpApi
   tableName: products-table-tatsiana-helakhava
   catalogItemsQueueName: catalog-items-queue-tatsiana-helakhava
+  createProductTopicName: create-product-topic-tatsiana-helakhava
 
 functions:
   getProductsList:
@@ -102,6 +110,16 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    CreateProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.createProductTopicName}
+    CreateProductSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        Endpoint: ${file(./sls-config.json):productSubscriptionEmail}
+        TopicArn: !Ref CreateProductTopic
     CatalogItemsQueue:
         Type: AWS::SQS::Queue
         Properties:
