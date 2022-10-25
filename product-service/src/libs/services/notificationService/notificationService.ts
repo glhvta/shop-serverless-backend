@@ -1,6 +1,9 @@
+import { Attribute } from '@libs/repositories/notificationRepository';
+
 export interface Notification {
   message?: string,
   subject?: string,
+  attributes?: Record<string, Attribute>
 }
 
 export default abstract class NotificationService<T> {

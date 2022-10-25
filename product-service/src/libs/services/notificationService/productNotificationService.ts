@@ -1,4 +1,4 @@
-import NotificationRepository from '@libs/repositories/notificationRepository/notificationRepository';
+import NotificationRepository, { AttributeType } from '@libs/repositories/notificationRepository/notificationRepository';
 import { Product } from 'src/types/api-types';
 import NotificationService, { Notification } from './notificationService';
 
@@ -21,6 +21,12 @@ export default class ProductNotificationService extends NotificationService<Prod
         Description: ${data.description}
         Price: ${data.price}$
       `,
+      attributes: {
+        price: {
+          DataType: AttributeType.Number,
+          StringValue: String(data.price),
+        },
+      },
     };
   }
 }

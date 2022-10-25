@@ -120,6 +120,13 @@ resources:
         Protocol: email
         Endpoint: ${file(./sls-config.json):productSubscriptionEmail}
         TopicArn: !Ref CreateProductTopic
+    HighPriceEmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        Endpoint: ${file(./sls-config.json):highPriceSubscriptionEmail}
+        TopicArn: !Ref CreateProductTopic
+        FilterPolicy: '{"price":[{"numeric":[">",50]}]}'
     CatalogItemsQueue:
         Type: AWS::SQS::Queue
         Properties:
