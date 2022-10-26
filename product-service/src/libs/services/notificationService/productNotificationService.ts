@@ -8,7 +8,7 @@ export default class ProductNotificationService extends NotificationService<Prod
   }
 
   async sendNotification(notification: Notification): Promise<void> {
-    await this.notificationRepository.send(notification.message, notification.subject);
+    await this.notificationRepository.send(notification.message, notification.subject, notification.attributes);
   }
 
   public buildNotification(data: Product): Notification {
