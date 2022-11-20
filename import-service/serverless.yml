@@ -11,6 +11,7 @@ provider:
   environment:
     BUCKET_NAME: ${self:custom.bucketName}
     SERVICE_REGION: ${self:provider.region}
+    SQS_URL: ${param:productsSQSUrl}
   iam:
     role:
       permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
@@ -24,6 +25,10 @@ provider:
             - 's3:*'
           Resource:
             - 'arn:aws:s3:::${self:custom.bucketName}/*'
+        - Effect: Allow
+          Action: sqs:*
+          Resource:
+            - ${param:productsSQSArn}
 
 plugins:
   - serverless-auto-swagger

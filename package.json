@@ -1,0 +1,25 @@
+{
+  "name": "shop-serverless-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy:dev": "sls deploy --stage dev",
+    "deploy:dev:product-service": "sls product-service:deploy --stage dev",
+    "deploy:dev:import-service": "sls import-service:deploy --stage dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glhvta/shop-serverless-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glhvta/shop-serverless-backend/issues"
+  },
+  "homepage": "https://github.com/glhvta/shop-serverless-backend#readme",
+  "devDependencies": {
+    "@serverless/compose": "^1.3.0"
+  }
+}

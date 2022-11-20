@@ -13,15 +13,21 @@ const importFileParser = (importService: ImportService) => async(event: S3Event)
 
         console.log(`Start parsing file: ${fileName}`);
 
-        const file = await importService.parseFile<Product>(fileName);
+        const products = await importService.parseFile<Product>(fileName);
 
-        console.log(`File ${fileName} was parsed successfully: `, JSON.stringify(file));
+        console.log(`File ${fileName} was parsed successfully: `, JSON.stringify(products));
 
         console.log(`Starting moving file ${fileName}`);
 
         await importService.moveFile(fileName);
 
         console.log(`File ${fileName} was successfully moved`);
+
+        console.log('Products to be sent to sqs queue: ', products);
+
+        await importService.sendImportedProductsToQueue(products);
+
+        console.log('Products were successfully sent to sqs queue');
       }),
     );
   } catch (err) {

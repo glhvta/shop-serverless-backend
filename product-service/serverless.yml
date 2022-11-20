@@ -8,6 +8,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   profile: js-cc4
   region: eu-central-1
+  environment:
+    SERVICE_REGION: ${self:provider.region}
+    SNS_ARN: !Ref CreateProductTopic
   iam:
     role: 
       permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
@@ -22,6 +25,17 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: '*'
+        - Effect: Allow
+          Action:
+            - sqs:*
+          Resource:
+            - Fn::GetAtt:
+                - CatalogItemsQueue
+                - Arn
+        - Effect: Allow
+          Action:
+            - sns:*
+          Resource: !Ref CreateProductTopic
 
 plugins:
   - serverless-auto-swagger
@@ -35,6 +49,8 @@ custom:
   autoswagger:
     apiType: httpApi
   tableName: products-table-tatsiana-helakhava
+  catalogItemsQueueName: catalog-items-queue-tatsiana-helakhava
+  createProductTopicName: create-product-topic-tatsiana-helakhava
 
 functions:
   getProductsList:
@@ -57,7 +73,66 @@ functions:
       - http:
           path: /products
           method: POST
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - CatalogItemsQueue
+              - Arn
 
 resources:
-  # DynamoDB
-  - ${file(resources/dynamodb-table.yml)}
+  Resources:
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: count
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: CountIndex
+            KeySchema:
+              - AttributeName: count
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    CreateProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.createProductTopicName}
+    CreateProductSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        Endpoint: ${file(./sls-config.json):productSubscriptionEmail}
+        TopicArn: !Ref CreateProductTopic
+    HighPriceEmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        Endpoint: ${file(./sls-config.json):highPriceSubscriptionEmail}
+        TopicArn: !Ref CreateProductTopic
+        FilterPolicy: '{"price":[{"numeric":[">",50]}]}'
+    CatalogItemsQueue:
+        Type: AWS::SQS::Queue
+        Properties:
+          QueueName: ${self:custom.catalogItemsQueueName}
+  Outputs:
+    productsSQSUrl:
+      Value: !Ref CatalogItemsQueue
+    productsSQSArn:
+      Value: !GetAtt CatalogItemsQueue.Arn

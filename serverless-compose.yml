@@ -1,0 +1,9 @@
+services:  
+  product-service:
+    path: ./product-service
+
+  import-service:
+    path: ./import-service
+    params:
+      productsSQSUrl: ${product-service.productsSQSUrl}
+      productsSQSArn: ${product-service.productsSQSArn}
