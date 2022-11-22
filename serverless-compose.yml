@@ -11,3 +11,4 @@ services:
       productsSQSUrl: ${product-service.productsSQSUrl}
       productsSQSArn: ${product-service.productsSQSArn}
       authorizerArn: ${authorization-service.authorizerArn}
+

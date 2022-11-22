@@ -1,4 +1,4 @@
-import { AuthorizationService } from "@libs/services/authorizationService";
+import { AuthorizationService } from '@libs/services/authorizationService';
 import {
   APIGatewayTokenAuthorizerEvent,
   APIGatewayAuthorizerResult,
@@ -13,17 +13,17 @@ const createPolicy = (policyEffect: PolicyEffect) => (principalId: string, resou
   return {
     principalId,
     policyDocument: {
-      Version: "2012-10-17",
+      Version: '2012-10-17',
       Statement: [
         {
-          Action: "execute-api:Invoke",
+          Action: 'execute-api:Invoke',
           Effect: policyEffect,
           Resource: resource,
-        }
-      ]
-    }
-  }
-}
+        },
+      ],
+    },
+  };
+};
 
 const createAllowPolicy = createPolicy(PolicyEffect.Allow);
 const createDenyPolicy = createPolicy(PolicyEffect.Deny);
@@ -31,7 +31,7 @@ const createDenyPolicy = createPolicy(PolicyEffect.Deny);
 const basicAuthorizer = (authorizationService: AuthorizationService) => async (event: APIGatewayTokenAuthorizerEvent): Promise<APIGatewayAuthorizerResult> => {
   console.log(`Incoming event: ${ JSON.stringify(event) }`);
 
-  const { authorizationToken, methodArn, type} = event;
+  const { authorizationToken, methodArn, type } = event;
 
   if (type !== 'TOKEN') {
     console.log('Deny authorization. Event type is not TOKEN');
@@ -52,7 +52,7 @@ const basicAuthorizer = (authorizationService: AuthorizationService) => async (e
   if (isAuthorized) {
     console.log('Authorized. Returning allow policy');
 
-    return createAllowPolicy(authorizationToken, methodArn)
+    return createAllowPolicy(authorizationToken, methodArn);
   }
 
   console.log('Not Authorized. Returning deny policy');
@@ -61,3 +61,4 @@ const basicAuthorizer = (authorizationService: AuthorizationService) => async (e
 };
 
 export default basicAuthorizer;
+

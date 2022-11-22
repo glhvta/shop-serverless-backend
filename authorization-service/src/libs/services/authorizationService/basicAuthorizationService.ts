@@ -1,6 +1,6 @@
-import AuthorizationService from "./authorizationService";
+import AuthorizationService from './authorizationService';
 
-export default class  BasicAuthorizationService implements AuthorizationService {
+export default class BasicAuthorizationService implements AuthorizationService {
   private readonly authorizationToken: string;
   private readonly encodedAuthorizationToken: string;
 
