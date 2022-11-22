@@ -2,8 +2,13 @@ services:
   product-service:
     path: ./product-service
 
+  authorization-service:
+    path: ./authorization-service
+
   import-service:
     path: ./import-service
     params:
       productsSQSUrl: ${product-service.productsSQSUrl}
       productsSQSArn: ${product-service.productsSQSArn}
+      authorizerArn: ${authorization-service.authorizerArn}
+

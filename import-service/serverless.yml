@@ -51,6 +51,12 @@ functions:
           path: /import
           method: GET
           cors: true
+          authorizer:
+            name: basicAuthorizer
+            type: token
+            arn: ${param:authorizerArn}
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
   importFileParser:
     handler: handler.importFileParser
     events:
