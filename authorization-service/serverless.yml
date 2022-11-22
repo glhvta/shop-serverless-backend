@@ -24,3 +24,9 @@ custom:
 functions:
   basicAuthorizer:
     handler: handler.basicAuthorizer
+
+resources:
+  Outputs:
+    authorizerArn:
+      Value: 
+        Fn::GetAtt: BasicAuthorizerLambdaFunction.Arn

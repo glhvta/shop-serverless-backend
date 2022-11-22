@@ -54,7 +54,7 @@ functions:
           authorizer:
             name: basicAuthorizer
             type: token
-            arn: 'arn:aws:lambda:eu-central-1:398158581759:function:auth-service-tatsiana-helakhava-dev-basicAuthorizer'
+            arn: ${param:authorizerArn}
             resultTtlInSeconds: 0
             identitySource: method.request.header.Authorization
   importFileParser:
