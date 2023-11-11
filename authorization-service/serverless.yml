@@ -1,0 +1,32 @@
+service: auth-service-tatsiana-helakhava
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  profile: js-cc4
+  region: eu-central-1
+  iam:
+    role:
+      permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+
+functions:
+  basicAuthorizer:
+    handler: handler.basicAuthorizer
+
+resources:
+  Outputs:
+    authorizerArn:
+      Value: 
+        Fn::GetAtt: BasicAuthorizerLambdaFunction.Arn

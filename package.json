@@ -7,6 +7,7 @@
     "deploy:dev": "sls deploy --stage dev",
     "deploy:dev:product-service": "sls product-service:deploy --stage dev",
     "deploy:dev:import-service": "sls import-service:deploy --stage dev",
+    "deploy:dev:authorization-service": "sls authorization-service:deploy --stage dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
